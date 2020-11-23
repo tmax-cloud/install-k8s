@@ -13,8 +13,7 @@
 * k8s.gcr.io/pause:3.1
 * k8s.gcr.io/coredns:1.6.5
 
-## Prerequisites
-## 폐쇄망 설치 가이드 
+## 폐쇄망 구축 가이드 
 
 1. **폐쇄망에서 설치하는 경우** 아래 가이드를 참고 하여 image registry를 먼저 구축한다.
     * https://github.com/tmax-cloud/hypercloud-install-guide/tree/master/Image_Registry   
@@ -82,8 +81,10 @@
     ```    
     ![image](figure/check.PNG)
 * 비고 :
-    * 위 내용은 2개이상의 마스터 구축시 마스터 1개에서만 진행한다.    
-## Install Steps
+    * 위 내용은 2개이상의 마스터 구축시 마스터 1개에서만 진행한다.
+    
+## 설치 가이드
+
 0. [환경 설정](/README.md#step0-%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95)
 1. [cri-o 설치](/README.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
 2. [kubeadm, kubelet, kubectl 설치](/README.md#step-2-kubeadm-kubelet-kubectl-%EC%84%A4%EC%B9%98)
@@ -395,5 +396,5 @@
 	    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 	    sudo chown $(id -u):$(id -g) $HOME/.kube/config
 	    ```
-## Delete Steps
+## 삭제 가이드
 
