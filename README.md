@@ -1,3 +1,11 @@
+### 문의
+* 폐쇄망 구축 관련된 옵션들은 전부 폐쇄망 구축 가이드로 이전 요청(ex. crio 설치 과정)
+* Master/Worker의 문서 통합 요청
+* 다중화 Cluster의 문서 통합 요청
+* Docker registry 설정이 필요한지? (3-2), Image registry는 docker registry를 계속 사용할 것인지?
+* root directory에는 README.md, manifest가 필수 존재 (manifest directory 하위에 모든 설치 파일이 존재)
+* README.md 의 항목은 '구성 요소 및 버전', '폐쇄망 구축 가이드', '설치 가이드', '삭제 가이드' 가 필수 요소
+
 
 # K8s Cluster 구축 가이드
 ※ [듀얼 스택 클러스터 구축을 위한 k8s-master 설치 가이드](/README_dualstack.md)
