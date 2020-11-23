@@ -1,5 +1,5 @@
 
-# k8s-master 설치 가이드
+# K8s Cluster 구축 가이드
 ※ [듀얼 스택 클러스터 구축을 위한 k8s-master 설치 가이드](/README_dualstack.md)
 
 ## 구성 요소 및 버전
@@ -140,7 +140,7 @@
 	
 	sudo sysctl --system
 	```
-## Step 1. cri-o 설치
+## Step 1. cri-o 설치 (Master/Worker 공통)
 * 목적 : `k8s container runtime 설치`
 * 순서 :
     * cri-o를 설치한다.
@@ -197,7 +197,7 @@
 	```bash
 	sudo systemctl restart crio
 	``` 	
-## Step 2. kubeadm, kubelet, kubectl 설치
+## Step 2. kubeadm, kubelet, kubectl 설치 (Master/Worker 공통)
 * 목적 : `Kubernetes 구성을 위한 kubeadm, kubelet, kubectl 설치한다.`
 * 순서:
     * CRI-O 메이저와 마이너 버전은 쿠버네티스 메이저와 마이너 버전이 일치해야 한다.
@@ -224,7 +224,7 @@
 	sudo systemctl enable kubelet
 	```  
 
-## Step 3. kubernetes cluster 구성
+## Step 3. Control Plane 구성 (Master)
 * 목적 : `kubernetes master를 구축한다.`
 * 순서 :
     * 쿠버네티스 설치시 필요한 kubeadm-config를 작성한다.
@@ -356,7 +356,7 @@
     $ sudo systemctl start docker
     $ sudo systemctl enable docker
     ```
-    * docker damon에 insecure-registries를 등록한다.
+    * docker daemon에 insecure-registries를 등록한다.
       * sudo vi /etc/docker/daemon.json
     ```bash
     {
@@ -389,12 +389,27 @@
 	   ```bash
 	     sudo kubeadm join 172.22.5.2:6443 --token 2cks7n.yvojnnnq1lyz1qud \ --discovery-token-ca-cert-hash sha256:efba18bb4862cbcb54fb643a1b7f91c25e08cfc1640e5a6fffa6de83e4c76f07 \ --control-plane --certificate-key f822617fcbfde09dff35c10e388bc881904b5b6c4da28f3ea8891db2d0bd3a62 --cri-socket=/var/run/crio/crio.sock
 	   ```
-	   
 	* kubernetes config 
 	    ```bash
 	    mkdir -p $HOME/.kube
 	    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 	    sudo chown $(id -u):$(id -g) $HOME/.kube/config
 	    ```
+## Step 4. Cluster join (Worker)
+* 목적 : `kubernetes cluster에 join한다.`
+* 순서 :
+    * kubernetes master 구축시 생성된 join token을 worker node에서 실행한다.
+    * kubeadm join
+      * --cri-socket=/var/run/crio/crio.sock 옵션을 token 뒤에 추가하여 실행한다.
+	```bash
+	kubeadm join 172.22.5.2:6443 --token r5ks9p.q0ifuz5pcphqvc14 \ --discovery-token-ca-cert-hash sha256:90751da5966ad69a49f2454c20a7b97cdca7f125b8980cf25250a6ee6c804d88 --cri-socket=/var/run/crio/crio.sock
+	```
+    ![image](figure/noding.PNG)
+* 비고 : 
+    * kubeadm join command를 저장해놓지 못한 경우, master node에서 아래 명령어를 통해 token 재생성이 가능하다.
+	```bash
+	kubeadm token create --print-join-command
+	```	
+
 ## 삭제 가이드
 
