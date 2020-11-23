@@ -90,6 +90,7 @@
 2. [kubeadm, kubelet, kubectl 설치](/README.md#step-2-kubeadm-kubelet-kubectl-%EC%84%A4%EC%B9%98)
 3. [kubernetes cluster 구성](/README.md#step-3-kubernetes-cluster-%EA%B5%AC%EC%84%B1)
 3-1. [kubernetes cluster 구성(master 다중화)](/README.md#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%A4%91%ED%99%94-%EA%B5%AC%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-keepalived-%EC%84%A4%EC%B9%98)
+4. [kubernetes cluster join](/README.md#step-4-cluster-join-worker)
 
 ## Step0. 환경 설정
 * 목적 : `k8s 설치 진행을 위한 os 환경 설정`
