@@ -1,6 +1,5 @@
 
-# K8s Cluster 구축 가이드
-※ [듀얼 스택 클러스터 구축을 위한 k8s-master 설치 가이드](/README_dualstack.md)
+# 다중화 k8s-master 설치 가이드
 
 ## 구성 요소 및 버전
 * cri-o (v1.17.4)
@@ -85,12 +84,11 @@
     
 ## 설치 가이드
 
-0. [환경 설정](/README.md#step0-%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95)
-1. [cri-o 설치](/README.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
-2. [kubeadm, kubelet, kubectl 설치](/README.md#step-2-kubeadm-kubelet-kubectl-%EC%84%A4%EC%B9%98)
-3. [kubernetes cluster 구성](/README.md#step-3-kubernetes-cluster-%EA%B5%AC%EC%84%B1)
-3-1. [kubernetes cluster 구성(master 다중화)](/README.md#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%A4%91%ED%99%94-%EA%B5%AC%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-keepalived-%EC%84%A4%EC%B9%98)
-4. [kubernetes cluster join](/README.md#step-4-cluster-join-worker)
+0. [환경 설정](/README_dualstack.md#step0-%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95)
+1. [cri-o 설치](/README_dualstack.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
+2. [kubeadm, kubelet, kubectl 설치](/README_dualstack.md#step-2-kubeadm-kubelet-kubectl-%EC%84%A4%EC%B9%98)
+3. [kubernetes cluster 구성](/README_dualstack.md#step-3-kubernetes-cluster-%EA%B5%AC%EC%84%B1)
+3-1. [kubernetes cluster 구성(master 다중화)](/README_dualstack.md#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%A4%91%ED%99%94-%EA%B5%AC%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-keepalived-%EC%84%A4%EC%B9%98)
 
 ## Step0. 환경 설정
 * 목적 : `k8s 설치 진행을 위한 os 환경 설정`
@@ -141,7 +139,7 @@
 	
 	sudo sysctl --system
 	```
-## Step 1. cri-o 설치 (Master/Worker 공통)
+## Step 1. cri-o 설치
 * 목적 : `k8s container runtime 설치`
 * 순서 :
     * cri-o를 설치한다.
@@ -182,12 +180,7 @@
          * plugin_dirs : "/opt/cni/bin" 추가
          * (폐쇄망) pause_image : "k8s.gcr.io/pause:3.1" 을 "{registry}:{port}/k8s.gcr.io/pause:3.1" 로 변경
 	![image](figure/crio_config.PNG)
-    * pid cgroup의 max pid limit 설정이 필요한 경우 pids_limit 개수를 수정한다.
-      * default : pids_limit = 1024
-      * 시스템의 제한값인 `/proc/sys/kernel/pid_max`의 값 이하로 설정한다.
-	```bash
-	pids_limit = 32768
-	```     
+ 
     * registries.conf 내용을 수정한다.
       * sudo vi /etc/containers/registries.conf
 	```bash
@@ -198,7 +191,7 @@
 	```bash
 	sudo systemctl restart crio
 	``` 	
-## Step 2. kubeadm, kubelet, kubectl 설치 (Master/Worker 공통)
+## Step 2. kubeadm, kubelet, kubectl 설치
 * 목적 : `Kubernetes 구성을 위한 kubeadm, kubelet, kubectl 설치한다.`
 * 순서:
     * CRI-O 메이저와 마이너 버전은 쿠버네티스 메이저와 마이너 버전이 일치해야 한다.
@@ -225,7 +218,7 @@
 	sudo systemctl enable kubelet
 	```  
 
-## Step 3. Control Plane 구성 (Master)
+## Step 3. kubernetes cluster 구성
 * 목적 : `kubernetes master를 구축한다.`
 * 순서 :
     * 쿠버네티스 설치시 필요한 kubeadm-config를 작성한다.
@@ -245,22 +238,30 @@
 	controlPlaneEndpoint: {endpoint IP}:6443
 	imageRepository: {registry}/k8s.gcr.io
 	networking:
- 		serviceSubnet: 10.96.0.0/16
-  		podSubnet: {POD_IP_POOL}/16
+ 		serviceSubnet: 10.96.0.0/16,fd00:10:96::/112
+  		podSubnet: 10.244.0.0/16,fd00:10:20::/72
+  featureGates:
+    IPv6DualStack: true
 	---
 	apiVersion: kubelet.config.k8s.io/v1beta1
 	kind: KubeletConfiguration
 	cgroupDriver: systemd
+  ---
+  apiVersion: kubeproxy.config.k8s.io/v1alpha1
+  kind: KubeProxyConfiguration
+  mode: ipvs
 	```
       * kubernetesVersion : kubernetes version
       * advertiseAddress : API server IP ( master IP )
         * 해당 master 노드의 IP
       * controlPlaneEndpoint : endpoint IP ( master IP or virtual IP) , port는 반드시 6443으로 설정
         * 1개의 마스터 : master IP , 2개 이상의 마스터 구축시 : virtual IP
-      * serviceSubnet : "${SERVICE_IP_POOL}/${CIDR}"
-      * podSubnet : "${POD_IP_POOL}/${CIDR}"
+      * serviceSubnet : "${SERVICE_IPV4_POOL}/${CIDR},${SERVICE_IPV6_POOL}/${CIDR}"
+      * podSubnet : "${POD_IPV4_POOL}/${CIDR},${POD_IPV6_POOL}/${CIDR}"
       * imageRepository : "${registry} / docker hub name"
+      * IPv6DualStack: true, dual stack 기능이 베타 버전이라서 기본값으로는 비활성화이기 때문에 활성화 시키는 세팅(추후 기본으로 활성화 되면 빠져야 함)
       * cgroupDriver: cgroup driver systemd 변경
+      * mode: ipvs, dual stack 기능은 kube-proxy ipvs 모드에서만 동작
 
     * kubeadm init (2개 이상 마스터 구축시에는 아래 가이드 참조)
 	```bash
@@ -357,7 +358,7 @@
     $ sudo systemctl start docker
     $ sudo systemctl enable docker
     ```
-    * docker daemon에 insecure-registries를 등록한다.
+    * docker damon에 insecure-registries를 등록한다.
       * sudo vi /etc/docker/daemon.json
     ```bash
     {
@@ -378,7 +379,7 @@
         * join 시에 --cri-socket=/var/run/crio/crio.sock 옵션을 추가하여 실행한다.
 	    ```bash
 	    sudo kubeadm init --config=kubeadm-config.yaml --upload-certs 
-	    sudo kubeadm join {IP}:{PORT} --token ~~ discovery-token-ca-cert-hash --control-plane --certificate-key ~~ --cri-socket=/var/run/crio/crio.sock (1)
+	    sudo kubeadm join {IP}:{PORT} --token ~~ discovery-token-ca-cert-hash --control-plane --certificate-key ~~ (1) --cri-socket=/var/run/crio/crio.sock
 	    sudo kubeadm join {IP}:{PORT} --token ~~ discovery-token-ca-cert-hash --cri-socket=/var/run/crio/crio.sock (2)
 	    ```
 	![image](figure/master2.PNG)    
@@ -390,27 +391,12 @@
 	   ```bash
 	     sudo kubeadm join 172.22.5.2:6443 --token 2cks7n.yvojnnnq1lyz1qud \ --discovery-token-ca-cert-hash sha256:efba18bb4862cbcb54fb643a1b7f91c25e08cfc1640e5a6fffa6de83e4c76f07 \ --control-plane --certificate-key f822617fcbfde09dff35c10e388bc881904b5b6c4da28f3ea8891db2d0bd3a62 --cri-socket=/var/run/crio/crio.sock
 	   ```
+	   
 	* kubernetes config 
 	    ```bash
 	    mkdir -p $HOME/.kube
 	    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 	    sudo chown $(id -u):$(id -g) $HOME/.kube/config
 	    ```
-## Step 4. Cluster join (Worker)
-* 목적 : `kubernetes cluster에 join한다.`
-* 순서 :
-    * kubernetes master 구축시 생성된 join token을 worker node에서 실행한다.
-    * kubeadm join
-      * --cri-socket=/var/run/crio/crio.sock 옵션을 token 뒤에 추가하여 실행한다.
-	```bash
-	kubeadm join 172.22.5.2:6443 --token r5ks9p.q0ifuz5pcphqvc14 \ --discovery-token-ca-cert-hash sha256:90751da5966ad69a49f2454c20a7b97cdca7f125b8980cf25250a6ee6c804d88 --cri-socket=/var/run/crio/crio.sock
-	```
-    ![image](figure/noding.PNG)
-* 비고 : 
-    * kubeadm join command를 저장해놓지 못한 경우, master node에서 아래 명령어를 통해 token 재생성이 가능하다.
-	```bash
-	kubeadm token create --print-join-command
-	```	
-
+	    
 ## 삭제 가이드
-
