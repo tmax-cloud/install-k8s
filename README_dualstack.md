@@ -1,5 +1,5 @@
 
-# k8s-master 설치 가이드
+# 다중화 k8s-master 설치 가이드
 
 ## 구성 요소 및 버전
 * cri-o (v1.17.4)
@@ -12,8 +12,7 @@
 * k8s.gcr.io/pause:3.1
 * k8s.gcr.io/coredns:1.6.5
 
-## Prerequisites
-## 폐쇄망 설치 가이드 
+## 폐쇄망 구축 가이드 
 
 1. **폐쇄망에서 설치하는 경우** 아래 가이드를 참고 하여 image registry를 먼저 구축한다.
     * https://github.com/tmax-cloud/hypercloud-install-guide/tree/master/Image_Registry   
@@ -81,13 +80,15 @@
     ```    
     ![image](figure/check.PNG)
 * 비고 :
-    * 위 내용은 2개이상의 마스터 구축시 마스터 1개에서만 진행한다.    
-## Install Steps
-0. [환경 설정](https://github.com/tmax-cloud/hypercloud-install-guide/tree/master/K8S_Master#step0-%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95)
-1. [cri-o 설치](https://github.com/tmax-cloud/hypercloud-install-guide/tree/master/K8S_Master#step-1-cri-o-%EC%84%A4%EC%B9%98)
-2. [kubeadm, kubelet, kubectl 설치](https://github.com/tmax-cloud/hypercloud-install-guide/tree/master/K8S_Master#step-2-kubeadm-kubelet-kubectl-%EC%84%A4%EC%B9%98)
-3. [kubernetes cluster 구성](https://github.com/tmax-cloud/hypercloud-install-guide/tree/master/K8S_Master#step-3-kubernetes-cluster-%EA%B5%AC%EC%84%B1)
-3-1. [kubernetes cluster 구성(master 다중화)](https://github.com/tmax-cloud/hypercloud-install-guide/tree/master/K8S_Master#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%A4%91%ED%99%94-%EA%B5%AC%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-keepalived-%EC%84%A4%EC%B9%98)
+    * 위 내용은 2개이상의 마스터 구축시 마스터 1개에서만 진행한다.
+    
+## 설치 가이드
+
+0. [환경 설정](/README_dualstack.md#step0-%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95)
+1. [cri-o 설치](/README_dualstack.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
+2. [kubeadm, kubelet, kubectl 설치](/README_dualstack.md#step-2-kubeadm-kubelet-kubectl-%EC%84%A4%EC%B9%98)
+3. [kubernetes cluster 구성](/README_dualstack.md#step-3-kubernetes-cluster-%EA%B5%AC%EC%84%B1)
+3-1. [kubernetes cluster 구성(master 다중화)](/README_dualstack.md#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%A4%91%ED%99%94-%EA%B5%AC%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-keepalived-%EC%84%A4%EC%B9%98)
 
 ## Step0. 환경 설정
 * 목적 : `k8s 설치 진행을 위한 os 환경 설정`
@@ -397,3 +398,5 @@
 	    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 	    sudo chown $(id -u):$(id -g) $HOME/.kube/config
 	    ```
+	    
+## 삭제 가이드
