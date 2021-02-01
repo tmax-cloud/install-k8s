@@ -9,6 +9,11 @@
 * k8s.gcr.io/pause:3.1
 * k8s.gcr.io/coredns:1.6.5
 
+## Prerequisites
+* 클러스터 구성전 master, worker node 최소 스팩
+  * master node (controll plane node) - CPU : 2Core 이상
+  * master/worker node - RAM : 2GiB 이상
+
 ## 폐쇄망 구축 가이드 
 1. **폐쇄망에서 설치하는 경우** 아래 가이드를 참고 하여 image registry를 먼저 구축한다.
     * https://github.com/tmax-cloud/hypercloud-install-guide/tree/master/Image_Registry   
