@@ -33,12 +33,12 @@
     $ sudo docker pull k8s.gcr.io/coredns:1.6.2
     $ sudo docker pull k8s.gcr.io/pause:3.1    
     ```
-    * v1.17.6 images
+    * v1.17.8 images
     ```bash
-    $ sudo docker pull k8s.gcr.io/kube-proxy:v1.17.6
-    $ sudo docker pull k8s.gcr.io/kube-apiserver:v1.17.6
-    $ sudo docker pull k8s.gcr.io/kube-controller-manager:v1.17.6
-    $ sudo docker pull k8s.gcr.io/kube-scheduler:v1.17.6
+    $ sudo docker pull k8s.gcr.io/kube-proxy:v1.17.8
+    $ sudo docker pull k8s.gcr.io/kube-apiserver:v1.17.8
+    $ sudo docker pull k8s.gcr.io/kube-controller-manager:v1.17.8
+    $ sudo docker pull k8s.gcr.io/kube-scheduler:v1.17.8
     $ sudo docker pull k8s.gcr.io/etcd:3.4.3-0
     $ sudo docker pull k8s.gcr.io/coredns:1.6.5
     $ sudo docker pull k8s.gcr.io/pause:3.1
@@ -55,14 +55,14 @@
     $ sudo docker save -o kube-apiserver-1.16.tar k8s.gcr.io/kube-apiserver:v1.16.15
     $ sudo docker save -o pause-1.16.tar k8s.gcr.io/pause:3.1
     ```
-    * v1.17.6 images
+    * v1.17.8 images
     ```bash
-    $ sudo docker save -o kube-proxy-1.17.tar k8s.gcr.io/kube-proxy:v1.17.6
-    $ sudo docker save -o kube-controller-manager-1.17.tar k8s.gcr.io/kube-controller-manager:v1.17.6
+    $ sudo docker save -o kube-proxy-1.17.tar k8s.gcr.io/kube-proxy:v1.17.8
+    $ sudo docker save -o kube-controller-manager-1.17.tar k8s.gcr.io/kube-controller-manager:v1.17.8
     $ sudo docker save -o etcd-1.17.tar k8s.gcr.io/etcd:3.4.3-0
     $ sudo docker save -o coredns-1.17.tar k8s.gcr.io/coredns:1.6.5
-    $ sudo docker save -o kube-scheduler-1.17.tar k8s.gcr.io/kube-scheduler:v1.17.6
-    $ sudo docker save -o kube-apiserver-1.17.tar k8s.gcr.io/kube-apiserver:v1.17.6
+    $ sudo docker save -o kube-scheduler-1.17.tar k8s.gcr.io/kube-scheduler:v1.17.8
+    $ sudo docker save -o kube-apiserver-1.17.tar k8s.gcr.io/kube-apiserver:v1.17.8
     $ sudo docker save -o pause-1.17.tar k8s.gcr.io/pause:3.1
     ```
 3. 위의 과정에서 생성한 tar 파일들을 폐쇄망 환경으로 이동시킨 뒤 사용하려는 registry에 이미지를 push한다.
@@ -94,7 +94,7 @@
     $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-scheduler:v1.16.15
     $ sudo docker push ${REGISTRY}/k8s.gcr.io/pause:3.1
     ```
-    * v1.17.6 images
+    * v1.17.8 images
     ```bash
     $ sudo docker load -i kube-apiserver-1.17.tar
     $ sudo docker load -i kube-scheduler-1.17.tar
@@ -105,21 +105,21 @@
     $ sudo docker load -i pause-1.17.tar
     ```
     ```bash
-    $ sudo docker tag k8s.gcr.io/kube-apiserver:v1.17.6 ${REGISTRY}/k8s.gcr.io/kube-apiserver:v1.17.6
-    $ sudo docker tag k8s.gcr.io/kube-proxy:v1.17.6 ${REGISTRY}/k8s.gcr.io/kube-proxy:v1.17.6
-    $ sudo docker tag k8s.gcr.io/kube-controller-manager:v1.17.6 ${REGISTRY}/k8s.gcr.io/kube-controller-manager:v1.17.6
+    $ sudo docker tag k8s.gcr.io/kube-apiserver:v1.17.8 ${REGISTRY}/k8s.gcr.io/kube-apiserver:v1.17.8
+    $ sudo docker tag k8s.gcr.io/kube-proxy:v1.17.8 ${REGISTRY}/k8s.gcr.io/kube-proxy:v1.17.8
+    $ sudo docker tag k8s.gcr.io/kube-controller-manager:v1.17.8 ${REGISTRY}/k8s.gcr.io/kube-controller-manager:v1.17.8
     $ sudo docker tag k8s.gcr.io/etcd:3.4.3-0 ${REGISTRY}/k8s.gcr.io/etcd:3.4.3-0
     $ sudo docker tag k8s.gcr.io/coredns:1.6.5 ${REGISTRY}/k8s.gcr.io/coredns:1.6.5
-    $ sudo docker tag k8s.gcr.io/kube-scheduler:v1.17.6 ${REGISTRY}/k8s.gcr.io/kube-scheduler:v1.17.6
+    $ sudo docker tag k8s.gcr.io/kube-scheduler:v1.17.8 ${REGISTRY}/k8s.gcr.io/kube-scheduler:v1.17.8
     $ sudo docker tag k8s.gcr.io/pause:3.1 ${REGISTRY}/k8s.gcr.io/pause:3.1
     ```
     ```bash
-    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-apiserver:v1.17.6
-    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-proxy:v1.17.6
-    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-controller-manager:v1.17.6
+    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-apiserver:v1.17.8
+    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-proxy:v1.17.8
+    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-controller-manager:v1.17.8
     $ sudo docker push ${REGISTRY}/k8s.gcr.io/etcd:3.4.3-0
     $ sudo docker push ${REGISTRY}/k8s.gcr.io/coredns:1.6.5
-    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-scheduler:v1.17.6
+    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-scheduler:v1.17.8
     $ sudo docker push ${REGISTRY}/k8s.gcr.io/pause:3.1
     ```    
 
@@ -134,7 +134,7 @@
 	
 	ex) yum install -y kubeadm-1.16.0-0 --disableexcludes=kubernetes
 	
-	ex) yum install -y kubeadm-1.17.6-0 --disableexcludes=kubernetes
+	ex) yum install -y kubeadm-1.17.8-0 --disableexcludes=kubernetes
 	```
 * 버전 확인
 	```bash
@@ -289,7 +289,7 @@
 	
 	ex) yum install -y kubeadm-1.16.0-0 --disableexcludes=kubernetes
 	
-	ex) yum install -y kubeadm-1.17.6-0 --disableexcludes=kubernetes
+	ex) yum install -y kubeadm-1.17.8-0 --disableexcludes=kubernetes
 	```
     * 버전 확인
 	```bash
