@@ -18,7 +18,7 @@
      * crioVersion={crio version}
        * ex : crioVersion=1.17
      * k8sVersion={kubernetes version}
-       * ex : k8sVersion=1.17.6
+       * ex : k8sVersion=1.17.8
      * apiServer={kubernetes API server ip}
        * ex : apiServer=172.21.7.2
      * podSubnet={POD_IP_POOL}/{CIDR}
