@@ -1,10 +1,10 @@
 ## 구성 요소 및 버전
-* cri-o (v1.17.4) or docker-ce(v18.09.7)
-* kubeadm, kubelet, kubectl (v1.17.6)
-* k8s.gcr.io/kube-apiserver:v1.17.6
-* k8s.gcr.io/kube-proxy:v1.17.6
-* k8s.gcr.io/kube-scheduler:v1.17.6
-* k8s.gcr.io/kube-controller-manager:v1.17.6
+* cri-o (v1.17.5) or docker-ce(v18.09.7)
+* kubeadm, kubelet, kubectl (v1.17.8)
+* k8s.gcr.io/kube-apiserver:v1.17.8
+* k8s.gcr.io/kube-proxy:v1.17.8
+* k8s.gcr.io/kube-scheduler:v1.17.8
+* k8s.gcr.io/kube-controller-manager:v1.17.8
 * k8s.gcr.io/etcd:3.4.3-0
 * k8s.gcr.io/pause:3.1
 * k8s.gcr.io/coredns:1.6.5
@@ -27,10 +27,10 @@
     ```
     * 외부 네트워크 통신이 가능한 환경에서 필요한 이미지를 다운받는다.
     ```bash
-    $ sudo docker pull k8s.gcr.io/kube-proxy:v1.17.6
-    $ sudo docker pull k8s.gcr.io/kube-apiserver:v1.17.6
-    $ sudo docker pull k8s.gcr.io/kube-controller-manager:v1.17.6
-    $ sudo docker pull k8s.gcr.io/kube-scheduler:v1.17.6
+    $ sudo docker pull k8s.gcr.io/kube-proxy:v1.17.8
+    $ sudo docker pull k8s.gcr.io/kube-apiserver:v1.17.8
+    $ sudo docker pull k8s.gcr.io/kube-controller-manager:v1.17.8
+    $ sudo docker pull k8s.gcr.io/kube-scheduler:v1.17.8
     $ sudo docker pull k8s.gcr.io/etcd:3.4.3-0
     $ sudo docker pull k8s.gcr.io/coredns:1.6.5
     $ sudo docker pull k8s.gcr.io/pause:3.1
@@ -38,12 +38,12 @@
     ![image](figure/dockerimages.PNG)
     * docker image를 tar로 저장한다.
     ```bash
-    $ sudo docker save -o kube-proxy.tar k8s.gcr.io/kube-proxy:v1.17.6
-    $ sudo docker save -o kube-controller-manager.tar k8s.gcr.io/kube-controller-manager:v1.17.6
+    $ sudo docker save -o kube-proxy.tar k8s.gcr.io/kube-proxy:v1.17.8
+    $ sudo docker save -o kube-controller-manager.tar k8s.gcr.io/kube-controller-manager:v1.17.8
     $ sudo docker save -o etcd.tar k8s.gcr.io/etcd:3.4.3-0
     $ sudo docker save -o coredns.tar k8s.gcr.io/coredns:1.6.5
-    $ sudo docker save -o kube-scheduler.tar k8s.gcr.io/kube-scheduler:v1.17.6
-    $ sudo docker save -o kube-apiserver.tar k8s.gcr.io/kube-apiserver:v1.17.6
+    $ sudo docker save -o kube-scheduler.tar k8s.gcr.io/kube-scheduler:v1.17.8
+    $ sudo docker save -o kube-apiserver.tar k8s.gcr.io/kube-apiserver:v1.17.8
     $ sudo docker save -o pause.tar k8s.gcr.io/pause:3.1
     ```
     ![image](figure/dockersave.PNG)
@@ -59,22 +59,22 @@
     ```
     ![image](figure/dockerload.PNG)
     ```bash
-    $ sudo docker tag k8s.gcr.io/kube-apiserver:v1.17.6 ${REGISTRY}/k8s.gcr.io/kube-apiserver:v1.17.6
-    $ sudo docker tag k8s.gcr.io/kube-proxy:v1.17.6 ${REGISTRY}/k8s.gcr.io/kube-proxy:v1.17.6
-    $ sudo docker tag k8s.gcr.io/kube-controller-manager:v1.17.6 ${REGISTRY}/k8s.gcr.io/kube-controller-manager:v1.17.6
+    $ sudo docker tag k8s.gcr.io/kube-apiserver:v1.17.8 ${REGISTRY}/k8s.gcr.io/kube-apiserver:v1.17.8
+    $ sudo docker tag k8s.gcr.io/kube-proxy:v1.17.8 ${REGISTRY}/k8s.gcr.io/kube-proxy:v1.17.8
+    $ sudo docker tag k8s.gcr.io/kube-controller-manager:v1.17.8 ${REGISTRY}/k8s.gcr.io/kube-controller-manager:v1.17.8
     $ sudo docker tag k8s.gcr.io/etcd:3.4.3-0 ${REGISTRY}/k8s.gcr.io/etcd:3.4.3-0
     $ sudo docker tag k8s.gcr.io/coredns:1.6.5 ${REGISTRY}/k8s.gcr.io/coredns:1.6.5
-    $ sudo docker tag k8s.gcr.io/kube-scheduler:v1.17.6 ${REGISTRY}/k8s.gcr.io/kube-scheduler:v1.17.6
+    $ sudo docker tag k8s.gcr.io/kube-scheduler:v1.17.8 ${REGISTRY}/k8s.gcr.io/kube-scheduler:v1.17.8
     $ sudo docker tag k8s.gcr.io/pause:3.1 ${REGISTRY}/k8s.gcr.io/pause:3.1
     ```
     ![image](figure/tag.PNG)
     ```bash
-    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-apiserver:v1.17.6
-    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-proxy:v1.17.6
-    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-controller-manager:v1.17.6
+    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-apiserver:v1.17.8
+    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-proxy:v1.17.8
+    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-controller-manager:v1.17.8
     $ sudo docker push ${REGISTRY}/k8s.gcr.io/etcd:3.4.3-0
     $ sudo docker push ${REGISTRY}/k8s.gcr.io/coredns:1.6.5
-    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-scheduler:v1.17.6
+    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-scheduler:v1.17.8
     $ sudo docker push ${REGISTRY}/k8s.gcr.io/pause:3.1
     ```
     ![image](figure/push.PNG)
@@ -256,13 +256,13 @@
 * 목적 : `Kubernetes 구성을 위한 kubeadm, kubelet, kubectl 설치한다.`
 * 순서:
     * CRI-O 메이저와 마이너 버전은 쿠버네티스 메이저와 마이너 버전이 일치해야 한다.
-    * (폐쇄망) kubeadm, kubectl, kubelet 설치 (v1.17.6)
+    * (폐쇄망) kubeadm, kubectl, kubelet 설치 (v1.17.8)
 	```bash
-	sudo yum install -y kubeadm-1.17.6-0 kubelet-1.17.6-0 kubectl-1.17.6-0
+	sudo yum install -y kubeadm-1.17.8-0 kubelet-1.17.8-0 kubectl-1.17.8-0
 	
 	sudo systemctl enable kubelet
 	```  	
-    * (외부망) 레포 등록 후 kubeadm, kubectl, kubelet 설치 (v1.17.6)
+    * (외부망) 레포 등록 후 kubeadm, kubectl, kubelet 설치 (v1.17.8)
 	```bash
 	sudo cat << "EOF" | sudo tee -a /etc/yum.repos.d/kubernetes.repo
 	[kubernetes]
@@ -274,7 +274,7 @@
 	gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 	EOF
 
-	sudo yum install -y kubeadm-1.17.6-0 kubelet-1.17.6-0 kubectl-1.17.6-0
+	sudo yum install -y kubeadm-1.17.8-0 kubelet-1.17.8-0 kubectl-1.17.8-0
 	
 	sudo systemctl enable kubelet
 	```  
@@ -511,7 +511,7 @@
 * 순서 :
     * 설치했던 패키지들을 삭제 한다.
       ```bash
-      sudo yum remove -y kubeadm-1.17.6-0 kubelet-1.17.6-0 kubectl-1.17.6-0
+      sudo yum remove -y kubeadm-1.17.8-0 kubelet-1.17.8-0 kubectl-1.17.8-0
       
       sudo yum remove -y crio  or  sudo yum remove -y docker-ce
       
