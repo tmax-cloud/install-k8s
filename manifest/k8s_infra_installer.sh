@@ -182,7 +182,7 @@ function install_kube() {
 
   #install kubernetes
   if [[ -z ${k8sVersion} ]]; then
-        k8sVersion=1.17.6
+        k8sVersion=1.17.8
   else
         k8sVersion=${k8sVersion}
   fi
@@ -245,7 +245,7 @@ function uninstall() {
   
   kubeadm reset --cri-socket=/var/run/crio/crio.sock
 
-  sudo yum remove -y kubeadm-1.17.6-0 kubelet-1.17.6-0 kubectl-1.17.6-0
+  sudo yum remove -y kubeadm-1.17.8-0 kubelet-1.17.8-0 kubectl-1.17.8-0
   sudo yum remove -y crio  or  sudo yum remove -y docker-ce
   sudo yum remove -y keepalived 
 
