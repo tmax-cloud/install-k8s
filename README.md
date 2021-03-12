@@ -1,13 +1,13 @@
 ## 구성 요소 및 버전
-* cri-o (v1.17.5) or docker-ce(v18.09.7)
-* kubeadm, kubelet, kubectl (v1.17.8)
-* k8s.gcr.io/kube-apiserver:v1.17.8
-* k8s.gcr.io/kube-proxy:v1.17.8
-* k8s.gcr.io/kube-scheduler:v1.17.8
-* k8s.gcr.io/kube-controller-manager:v1.17.8
-* k8s.gcr.io/etcd:3.4.3-0
-* k8s.gcr.io/pause:3.1
-* k8s.gcr.io/coredns:1.6.5
+* cri-o (v1.19.1) or docker-ce(v18.09.7)
+* kubeadm, kubelet, kubectl (v1.19.4)
+* k8s.gcr.io/kube-apiserver:v1.19.4
+* k8s.gcr.io/kube-proxy:v1.19.4
+* k8s.gcr.io/kube-scheduler:v1.19.4
+* k8s.gcr.io/kube-controller-manager:v1.19.4
+* k8s.gcr.io/etcd:3.4.13-0
+* k8s.gcr.io/pause:3.2
+* k8s.gcr.io/coredns:1.7.0
 
 ## Prerequisites
 * 클러스터 구성전 master, worker node 최소 스팩
@@ -27,24 +27,24 @@
     ```
     * 외부 네트워크 통신이 가능한 환경에서 필요한 이미지를 다운받는다.
     ```bash
-    $ sudo docker pull k8s.gcr.io/kube-proxy:v1.17.8
-    $ sudo docker pull k8s.gcr.io/kube-apiserver:v1.17.8
-    $ sudo docker pull k8s.gcr.io/kube-controller-manager:v1.17.8
-    $ sudo docker pull k8s.gcr.io/kube-scheduler:v1.17.8
-    $ sudo docker pull k8s.gcr.io/etcd:3.4.3-0
-    $ sudo docker pull k8s.gcr.io/coredns:1.6.5
-    $ sudo docker pull k8s.gcr.io/pause:3.1
+    $ sudo docker pull k8s.gcr.io/kube-proxy:v1.19.4
+    $ sudo docker pull k8s.gcr.io/kube-apiserver:v1.19.4
+    $ sudo docker pull k8s.gcr.io/kube-controller-manager:v1.19.4
+    $ sudo docker pull k8s.gcr.io/kube-scheduler:v1.19.4
+    $ sudo docker pull k8s.gcr.io/etcd:3.4.13-0
+    $ sudo docker pull k8s.gcr.io/coredns:1.7.0
+    $ sudo docker pull k8s.gcr.io/pause:3.2
     ```
     ![image](figure/dockerimages.PNG)
     * docker image를 tar로 저장한다.
     ```bash
-    $ sudo docker save -o kube-proxy.tar k8s.gcr.io/kube-proxy:v1.17.8
-    $ sudo docker save -o kube-controller-manager.tar k8s.gcr.io/kube-controller-manager:v1.17.8
-    $ sudo docker save -o etcd.tar k8s.gcr.io/etcd:3.4.3-0
-    $ sudo docker save -o coredns.tar k8s.gcr.io/coredns:1.6.5
-    $ sudo docker save -o kube-scheduler.tar k8s.gcr.io/kube-scheduler:v1.17.8
-    $ sudo docker save -o kube-apiserver.tar k8s.gcr.io/kube-apiserver:v1.17.8
-    $ sudo docker save -o pause.tar k8s.gcr.io/pause:3.1
+    $ sudo docker save -o kube-proxy.tar k8s.gcr.io/kube-proxy:vv1.19.4
+    $ sudo docker save -o kube-controller-manager.tar k8s.gcr.io/kube-controller-manager:v1.19.4
+    $ sudo docker save -o etcd.tar k8s.gcr.io/etcd:3.4.13-0
+    $ sudo docker save -o coredns.tar k8s.gcr.io/coredns:1.7.0
+    $ sudo docker save -o kube-scheduler.tar k8s.gcr.io/kube-scheduler:v1.19.4
+    $ sudo docker save -o kube-apiserver.tar k8s.gcr.io/kube-apiserver:v1.19.4
+    $ sudo docker save -o pause.tar k8s.gcr.io/pause:3.2
     ```
     ![image](figure/dockersave.PNG)
 3. 위의 과정에서 생성한 tar 파일들을 폐쇄망 환경으로 이동시킨 뒤 사용하려는 registry에 이미지를 push한다.
@@ -59,23 +59,23 @@
     ```
     ![image](figure/dockerload.PNG)
     ```bash
-    $ sudo docker tag k8s.gcr.io/kube-apiserver:v1.17.8 ${REGISTRY}/k8s.gcr.io/kube-apiserver:v1.17.8
-    $ sudo docker tag k8s.gcr.io/kube-proxy:v1.17.8 ${REGISTRY}/k8s.gcr.io/kube-proxy:v1.17.8
-    $ sudo docker tag k8s.gcr.io/kube-controller-manager:v1.17.8 ${REGISTRY}/k8s.gcr.io/kube-controller-manager:v1.17.8
-    $ sudo docker tag k8s.gcr.io/etcd:3.4.3-0 ${REGISTRY}/k8s.gcr.io/etcd:3.4.3-0
-    $ sudo docker tag k8s.gcr.io/coredns:1.6.5 ${REGISTRY}/k8s.gcr.io/coredns:1.6.5
-    $ sudo docker tag k8s.gcr.io/kube-scheduler:v1.17.8 ${REGISTRY}/k8s.gcr.io/kube-scheduler:v1.17.8
-    $ sudo docker tag k8s.gcr.io/pause:3.1 ${REGISTRY}/k8s.gcr.io/pause:3.1
+    $ sudo docker tag k8s.gcr.io/kube-apiserver:v1.19.4 ${REGISTRY}/k8s.gcr.io/kube-apiserver:v1.19.4
+    $ sudo docker tag k8s.gcr.io/kube-proxy:v1.19.4 ${REGISTRY}/k8s.gcr.io/kube-proxy:v1.19.4
+    $ sudo docker tag k8s.gcr.io/kube-controller-manager:v1.19.4 ${REGISTRY}/k8s.gcr.io/kube-controller-manager:v1.19.4
+    $ sudo docker tag k8s.gcr.io/etcd:3.4.13-0 ${REGISTRY}/k8s.gcr.io/etcd:3.4.13-0
+    $ sudo docker tag k8s.gcr.io/coredns:1.6.5 ${REGISTRY}/k8s.gcr.io/coredns:1.7.0
+    $ sudo docker tag k8s.gcr.io/kube-scheduler:v1.19.4 ${REGISTRY}/k8s.gcr.io/kube-scheduler:v1.19.4
+    $ sudo docker tag k8s.gcr.io/pause:3.2 ${REGISTRY}/k8s.gcr.io/pause:3.2
     ```
     ![image](figure/tag.PNG)
     ```bash
-    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-apiserver:v1.17.8
-    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-proxy:v1.17.8
-    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-controller-manager:v1.17.8
-    $ sudo docker push ${REGISTRY}/k8s.gcr.io/etcd:3.4.3-0
-    $ sudo docker push ${REGISTRY}/k8s.gcr.io/coredns:1.6.5
-    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-scheduler:v1.17.8
-    $ sudo docker push ${REGISTRY}/k8s.gcr.io/pause:3.1
+    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-apiserver:v1.19.4
+    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-proxy:v1.19.4
+    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-controller-manager:v1.19.4
+    $ sudo docker push ${REGISTRY}/k8s.gcr.io/etcd:3.4.13-0
+    $ sudo docker push ${REGISTRY}/k8s.gcr.io/coredns:1.7.0
+    $ sudo docker push ${REGISTRY}/k8s.gcr.io/kube-scheduler:v1.19.4
+    $ sudo docker push ${REGISTRY}/k8s.gcr.io/pause:3.2
     ```
     ![image](figure/push.PNG)
     ```bash
@@ -173,7 +173,7 @@
 	```
      * (외부망) crio 버전 지정 및 레포를 등록 후 crio를 설치한다.
 	```bash
-	VERSION=1.17
+	VERSION=1.19
 	sudo curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/CentOS_7/devel:kubic:libcontainers:stable.repo
 	sudo curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable:cri-o:${VERSION}.repo https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:${VERSION}/CentOS_7/devel:kubic:libcontainers:stable:cri-o:${VERSION}.repo
   
@@ -192,9 +192,9 @@
 	```bash
 	sudo rm -rf  /etc/cni/net.d/100-crio-bridge.conf
  	sudo rm -rf  /etc/cni/net.d/200-loopback.conf
+	sudo rm -rf /etc/cni/net.d/87-podman-bridge.conflist
 	``` 
     * crio.conf 내용을 수정한다. ( sudo vi /etc/crio/crio.conf )
-      * plugin_dirs : "/opt/cni/bin" 추가
       * (폐쇄망) insecure_registries = ["{registry}:{port}"]
       * (폐쇄망) pause_image : "k8s.gcr.io/pause:3.1" 을 "{registry}:{port}/k8s.gcr.io/pause:3.1" 로 변경
       ![image](figure/crio_config.PNG)
@@ -256,13 +256,13 @@
 * 목적 : `Kubernetes 구성을 위한 kubeadm, kubelet, kubectl 설치한다.`
 * 순서:
     * CRI-O 메이저와 마이너 버전은 쿠버네티스 메이저와 마이너 버전이 일치해야 한다.
-    * (폐쇄망) kubeadm, kubectl, kubelet 설치 (v1.17.8)
+    * (폐쇄망) kubeadm, kubectl, kubelet 설치 (vv1.19.4)
 	```bash
-	sudo yum install -y kubeadm-1.17.8-0 kubelet-1.17.8-0 kubectl-1.17.8-0
+	sudo yum install -y kubeadm-v1.19.4-0 kubelet-v1.19.4-0 kubectl-v1.19.4-0
 	
 	sudo systemctl enable kubelet
 	```  	
-    * (외부망) 레포 등록 후 kubeadm, kubectl, kubelet 설치 (v1.17.8)
+    * (외부망) 레포 등록 후 kubeadm, kubectl, kubelet 설치 (v1.19.4)
 	```bash
 	sudo cat << "EOF" | sudo tee -a /etc/yum.repos.d/kubernetes.repo
 	[kubernetes]
@@ -274,7 +274,7 @@
 	gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 	EOF
 
-	sudo yum install -y kubeadm-1.17.8-0 kubelet-1.17.8-0 kubectl-1.17.8-0
+	sudo yum install -y kubeadm-v1.19.4-0 kubelet-v1.19.4-0 kubectl-v1.19.4-0
 	
 	sudo systemctl enable kubelet
 	```  
@@ -344,7 +344,7 @@
     * master에도 pod 스케줄을 가능하게 하려면 master taint를 제거한다
 	```bash
 	kubectl taint node [master hostname] node-role.kubernetes.io/master:NoSchedule-
-	ex) kubectl taint node k8s- node-role.kubernetes.io/master:NoSchedule- 
+	ex) kubectl taint node k8s-master1 node-role.kubernetes.io/master:NoSchedule- 
 	```
     * 듀얼 스택 클러스터 구축 시에는 아래의 kubeadm-config.yaml을 참조한다.
       * vi kubeadm-config.yaml
@@ -512,7 +512,7 @@
 * 순서 :
     * 설치했던 패키지들을 삭제 한다.
       ```bash
-      sudo yum remove -y kubeadm-1.17.8-0 kubelet-1.17.8-0 kubectl-1.17.8-0
+      sudo yum remove -y kubeadm-v1.19.4-0 kubelet-v1.19.4-0 kubectl-v1.19.4-0
       
       sudo yum remove -y crio  or  sudo yum remove -y docker-ce
       
