@@ -16,9 +16,9 @@
      * imageRegistry={IP}:{PORT}
        * ex : imageRegistry=172.22.5.2:5000
      * crioVersion={crio version}
-       * ex : crioVersion=1.17
+       * ex : crioVersion=1.19
      * k8sVersion={kubernetes version}
-       * ex : k8sVersion=1.17.8
+       * ex : k8sVersion=1.19.4
      * apiServer={kubernetes API server ip}
        * ex : apiServer=172.21.7.2
      * podSubnet={POD_IP_POOL}/{CIDR}
