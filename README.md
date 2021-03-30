@@ -1,5 +1,5 @@
 ## 구성 요소 및 버전
-* cri-o (v1.19.1) or docker-ce(v18.09.7)
+* cri-o (v1.19.1) or docker-ce(v20.10.5)
 * kubeadm, kubelet, kubectl (v1.19.4)
 * k8s.gcr.io/kube-apiserver:v1.19.4
 * k8s.gcr.io/kube-proxy:v1.19.4
@@ -38,7 +38,7 @@
     ![image](figure/dockerimages.PNG)
     * docker image를 tar로 저장한다.
     ```bash
-    $ sudo docker save -o kube-proxy.tar k8s.gcr.io/kube-proxy:vv1.19.4
+    $ sudo docker save -o kube-proxy.tar k8s.gcr.io/kube-proxy:v1.19.4
     $ sudo docker save -o kube-controller-manager.tar k8s.gcr.io/kube-controller-manager:v1.19.4
     $ sudo docker save -o etcd.tar k8s.gcr.io/etcd:3.4.13-0
     $ sudo docker save -o coredns.tar k8s.gcr.io/coredns:1.7.0
