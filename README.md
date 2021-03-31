@@ -568,9 +568,11 @@ case2. [ 다중화 master cluser 구성](/README.md#step-3-1-kubernetes-cluster-
 * 순서 :
     * 설치했던 패키지들을 삭제 한다.
       ```bash
-      sudo yum remove -y kubeadm-v1.19.4-0 kubelet-v1.19.4-0 kubectl-v1.19.4-0
+      sudo yum remove -y kubeadm-1.19.4-0 kubelet-1.19.4-0 kubectl-1.19.4-0
       
-      sudo yum remove -y crio  or  sudo yum remove -y docker-ce
+      sudo yum remove -y crio  
+      or  
+      sudo yum remove -y docker-ce
       
       sudo yum remove -y keepalived
       ```
