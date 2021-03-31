@@ -347,6 +347,10 @@ case2. [ 다중화 master cluser 구성](/README.md#step-3-1-kubernetes-cluster-
 	kubectl taint node [master hostname] node-role.kubernetes.io/master:NoSchedule-
 	ex) kubectl taint node k8s-master1 node-role.kubernetes.io/master:NoSchedule- 
 	```
+    * join시에 apiserver ip 변경이 필요할 경우 --apiserver-advertise-address 옵션을 추가한다.
+	```bash
+	kubeadm join 172.22.5.2:6443 --token 2cks7n.yvojnnnq1lyz1qud \ --discovery-token-ca-cert-hash sha256:efba18bb4862cbcb54fb643a1b7f91c25e08cfc1640e5a6fffa6de83e4c76f07 \ --control-plane --certificate-key f822617fcbfde09dff35c10e388bc881904b5b6c4da28f3ea8891db2d0bd3a62 --apiserver-advertise-address=172.22.4.3 --cri-socket=/var/run/crio/crio.sock
+	```  	
     * 듀얼 스택 클러스터 구축 시에는 아래의 kubeadm-config.yaml을 참조한다.
       * vi kubeadm-config.yaml
       ```bash
@@ -468,7 +472,7 @@ case2. [ 다중화 master cluser 구성](/README.md#step-3-1-kubernetes-cluster-
       * kubernetesVersion : kubernetes version
       * advertiseAddress : API server IP ( master IP )
         * 해당 master 노드의 IP
-      * controlPlaneEndpoint : endpoint IP (virtual IP) , port는 반드시 6443으로 설정
+      * controlPlaneEndpoint : endpoint IP ( virtual IP ) , port는 반드시 6443으로 설정
       * serviceSubnet : ${SERVICE_IP_POOL}/${CIDR}
       * podSubnet : ${POD_IP_POOL}/${CIDR}
       * imageRepository : ${registry}/docker_hub_name
@@ -487,7 +491,11 @@ case2. [ 다중화 master cluser 구성](/README.md#step-3-1-kubernetes-cluster-
 	sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 	sudo chown $(id -u):$(id -g) $HOME/.kube/config
 	```
-	![image](figure/success.PNG)
+	![image](figure/master2.PNG)
+	* 해당 옵션은 certificates를 control-plane으로 upload하는 옵션
+	* 해당 옵션을 설정하지 않을 경우, 모든 Master 노드에서 key를 복사해야 함
+	* Master 단일구성과는 다르게, --control-plane --certificate-key 옵션이 추가된 명령어가 출력됨
+	* Master 다중구성을 위한 hash 값을 포함한 kubeadm join 명령어가 출력되므로 해당 명령어를 복사하여 다중구성에 포함시킬 다른 Master에서 실행
     * 확인
 	```bash
 	kubectl get nodes
@@ -503,15 +511,6 @@ case2. [ 다중화 master cluser 구성](/README.md#step-3-1-kubernetes-cluster-
 	kubectl taint node [master hostname] node-role.kubernetes.io/master:NoSchedule-
 	ex) kubectl taint node k8s-master1 node-role.kubernetes.io/master:NoSchedule- 
 	```
-	![image](figure/master2.PNG)    
-	* 해당 옵션은 certificates를 control-plane으로 upload하는 옵션
-	* 해당 옵션을 설정하지 않을 경우, 모든 Master 노드에서 key를 복사해야 함
-	* Master 단일구성과는 다르게, --control-plane --certificate-key 옵션이 추가된 명령어가 출력됨
-	* (1)처럼 Master 다중구성을 위한 hash 값을 포함한 kubeadm join 명령어가 출력되므로 해당 명령어를 복사하여 다중구성에 포함시킬 다른 Master에서 실행
-	* (2)처럼 Worker의 join을 위한 명령어도 출력되므로 Worker 노드 join시 사용, crio 사용시 --cri-socket 옵션 추가
-	   ```bash
-	     kubeadm join 172.22.5.2:6443 --token 2cks7n.yvojnnnq1lyz1qud \ --discovery-token-ca-cert-hash sha256:efba18bb4862cbcb54fb643a1b7f91c25e08cfc1640e5a6fffa6de83e4c76f07 \ --control-plane --certificate-key f822617fcbfde09dff35c10e388bc881904b5b6c4da28f3ea8891db2d0bd3a62 --cri-socket=/var/run/crio/crio.sock
-	   ```
 * 비고 : 	
     * join시에 apiserver ip 변경이 필요할 경우 --apiserver-advertise-address 옵션을 추가한다.
 	```bash
