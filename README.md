@@ -91,8 +91,9 @@
 case1. [cri-o 설치](/README.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
 case2. [docker-ce 설치](/README.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
 2. [(Master/Worker 공통) kubeadm, kubelet, kubectl 설치](/README.md#step-2-kubeadm-kubelet-kubectl-%EC%84%A4%EC%B9%98)
-3. [(Master) kubernetes cluster 구성](/README.md#step-3-kubernetes-cluster-%EA%B5%AC%EC%84%B1)
-3-1. [kubernetes cluster 구성(master 다중화)](/README.md#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%A4%91%ED%99%94-%EA%B5%AC%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-keepalived-%EC%84%A4%EC%B9%98)
+3. [(Master) kubernetes cluster 구성]
+case1. [ 단일 master ](/README.md#step-3-kubernetes-cluster-%EA%B5%AC%EC%84%B1)
+case2. [ 다중화 master ](/README.md#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%A4%91%ED%99%94-%EA%B5%AC%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-keepalived-%EC%84%A4%EC%B9%98)
 4. [(Worker) kubernetes cluster join](/README.md#step-4-cluster-join-worker)
 
 ## 삭제 가이드
@@ -281,8 +282,9 @@ case2. [docker-ce 설치](/README.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
 	sudo systemctl enable kubelet
 	```  
 
-## Step 3. Control Plane 구성 (Master)
-* 목적 : `kubernetes master를 구축한다.`
+## Step 3. kubernetes cluster 구성 (Master)
+### Case 1. 단일 contorl plain 구성 (Master 1개)
+* 목적 : `kubernetes 단일 master를 구축한다.`
 * 순서 :
     * 쿠버네티스 설치시 필요한 kubeadm-config를 작성한다.
         * vi kubeadm-config.yaml
@@ -390,8 +392,8 @@ case2. [docker-ce 설치](/README.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
      * cgroupDriver: cgroup driver systemd 변경
      * mode: ipvs, dual stack 기능은 kube-proxy ipvs 모드에서만 동작
       
-## Step 3-1. kubernetes cluster 다중화 구성을 위한 Keepalived 설치 (Master)
-* 목적 : `K8S cluster의 Master 다중화 구성을 위한 Keepalived를 설치 및 설정한다`
+### Case 2. 다중 contorl plain 구성 (Master 2개 이상)
+* 목적 : `kubernetes master를 구축한다.`
 * 순서 : 
     * Keepalived 설치
     ```bash
