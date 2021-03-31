@@ -92,8 +92,8 @@ case1. [cri-o 설치](/README.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
 case2. [docker-ce 설치](/README.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
 2. [(Master/Worker 공통) kubeadm, kubelet, kubectl 설치](/README.md#step-2-kubeadm-kubelet-kubectl-%EC%84%A4%EC%B9%98)
 3. [(Master) kubernetes cluster 구성]
-case1. [ 단일 master ](/README.md#step-3-kubernetes-cluster-%EA%B5%AC%EC%84%B1)
-case2. [ 다중화 master ](/README.md#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%A4%91%ED%99%94-%EA%B5%AC%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-keepalived-%EC%84%A4%EC%B9%98)
+case1. [ 단일 master cluser 구성](/README.md#step-3-kubernetes-cluster-%EA%B5%AC%EC%84%B1)
+case2. [ 다중화 master cluser 구성](/README.md#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%A4%91%ED%99%94-%EA%B5%AC%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-keepalived-%EC%84%A4%EC%B9%98)
 4. [(Worker) kubernetes cluster join](/README.md#step-4-cluster-join-worker)
 
 ## 삭제 가이드
@@ -284,7 +284,7 @@ case2. [ 다중화 master ](/README.md#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%
 
 ## Step 3. kubernetes cluster 구성 (Master)
 ### Case 1. 단일 contorl plain 구성 (Master 1개)
-* 목적 : `kubernetes 단일 master를 구축한다.`
+* 목적 : `kubernetes master를 구축한다.`
 * 순서 :
     * 쿠버네티스 설치시 필요한 kubeadm-config를 작성한다.
         * vi kubeadm-config.yaml
@@ -313,20 +313,17 @@ case2. [ 다중화 master ](/README.md#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%
       * kubernetesVersion : kubernetes version
       * advertiseAddress : API server IP ( master IP )
         * 해당 master 노드의 IP
-      * controlPlaneEndpoint : endpoint IP ( master IP or virtual IP) , port는 반드시 6443으로 설정
-        * 1개의 마스터 : master IP , 2개 이상의 마스터 구축시 : virtual IP
+      * controlPlaneEndpoint : endpoint IP ( master IP ) , port는 반드시 6443으로 설정
       * serviceSubnet : ${SERVICE_IP_POOL}/${CIDR}
       * podSubnet : ${POD_IP_POOL}/${CIDR}
       * imageRepository : ${registry}/docker_hub_name
-      * cgroupDriver: cgroup driver systemd 변경
+      * cgroupDriver: cgroup driver 설정
       
-     * kubeadm init (2개 이상 마스터 구축시에는 아래 가이드 참조)
+     * kubeadm init
 	```bash
 	sudo kubeadm init --config=kubeadm-config.yaml
 	```
 	![image](figure/kubeinit.PNG)
-     * 마스터 다중화 진행시 아래 마스터 다중화 가이드로 설치를 진행한다. 
-       * [마스터 다중화 가이드](https://github.com/tmax-cloud/install-k8s#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%A4%91%ED%99%94-%EA%B5%AC%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-keepalived-%EC%84%A4%EC%B9%98-master)
      * 듀얼 스택 클러스터 구축 시에는 아래의 [비고] yaml을 참조하여 진행한다.                
     * kubernetes config 
 	```bash
@@ -389,7 +386,7 @@ case2. [ 다중화 master ](/README.md#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%
      * podSubnet : ${POD_IPV4_POOL}/${CIDR},${POD_IPV6_POOL}/${CIDR}
      * imageRepository : ${registry}/docker_hub_name
      * IPv6DualStack: true, dual stack 기능이 베타 버전이라서 기본값으로는 비활성화이기 때문에 활성화 시키는 세팅(추후 기본으로 활성화 되면 빠져야 함)
-     * cgroupDriver: cgroup driver systemd 변경
+     * cgroupDriver: cgroup driver 
      * mode: ipvs, dual stack 기능은 kube-proxy ipvs 모드에서만 동작
       
 ### Case 2. 다중 contorl plain 구성 (Master 2개 이상)
@@ -435,8 +432,7 @@ case2. [ 다중화 master ](/README.md#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%
     sudo systemctl restart keepalived
     sudo systemctl enable keepalived
     sudo systemctl status keepalived
-    ```
-	
+    ```	
     * network interface 확인
     ```bash
     ip a
@@ -444,18 +440,69 @@ case2. [ 다중화 master ](/README.md#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%
     * 설정한 VIP 확인 가능, 여러 마스터 중 하나만 보임.
     * inet {VIP}/32 scope global eno1
     ![image](figure/ipa.PNG)
+
+    * 쿠버네티스 설치시 필요한 kubeadm-config를 작성한다.
+        * vi kubeadm-config.yaml
+	```bash
+	apiVersion: kubeadm.k8s.io/v1beta2
+	kind: InitConfiguration
+	localAPIEndpoint:
+  		advertiseAddress: {api server IP}
+  		bindPort: 6443
+	nodeRegistration:
+  		criSocket: /var/run/crio/crio.sock
+	---
+	apiVersion: kubeadm.k8s.io/v1beta2
+	kind: ClusterConfiguration
+	kubernetesVersion: {k8s version}
+	controlPlaneEndpoint: {endpoint IP}:6443
+	imageRepository: {registry}/k8s.gcr.io
+	networking:
+ 		serviceSubnet: {SERVICE_IP_POOL}/{CIDR}
+  		podSubnet: {POD_IP_POOL}/{CIDR}
+	---
+	apiVersion: kubelet.config.k8s.io/v1beta1
+	kind: KubeletConfiguration
+	cgroupDriver: systemd
+	```
+      * kubernetesVersion : kubernetes version
+      * advertiseAddress : API server IP ( master IP )
+        * 해당 master 노드의 IP
+      * controlPlaneEndpoint : endpoint IP (virtual IP) , port는 반드시 6443으로 설정
+      * serviceSubnet : ${SERVICE_IP_POOL}/${CIDR}
+      * podSubnet : ${POD_IP_POOL}/${CIDR}
+      * imageRepository : ${registry}/docker_hub_name
+      * cgroupDriver: cgroup driver 
+      
+     * kubeadm init
+       * Master 다중구성시 --upload-certs 옵션은 반드시 필요.
+	```bash
+	sudo kubeadm init --config=kubeadm-config.yaml --upload-certs
+	```
+	![image](figure/kubeinit.PNG)
 	
-## Step 3-2. kubernetes cluster 다중화 구성 설정 
-* 목적 : `K8S cluster의 Master 다중화를 구성한다`
-* 순서 : 
-    * kubeadm-config.yaml 파일로 kubeadm 명령어 실행한다.
-        * Master 다중구성시 --upload-certs 옵션은 반드시 필요.
-        * join 시에 --cri-socket=/var/run/crio/crio.sock 옵션을 추가하여 실행한다.
-	    ```bash
-	    sudo kubeadm init --config=kubeadm-config.yaml --upload-certs 
-	    sudo kubeadm join {IP}:{PORT} --token ~~ discovery-token-ca-cert-hash --control-plane --certificate-key ~~ --cri-socket=/var/run/crio/crio.sock (1)
-	    sudo kubeadm join {IP}:{PORT} --token ~~ discovery-token-ca-cert-hash --cri-socket=/var/run/crio/crio.sock (2)
-	    ```
+    * kubernetes config 
+	```bash
+	mkdir -p $HOME/.kube
+	sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+	sudo chown $(id -u):$(id -g) $HOME/.kube/config
+	```
+	![image](figure/success.PNG)
+    * 확인
+	```bash
+	kubectl get nodes
+	```
+	![image](figure/nodes.PNG)
+	```bash
+	kubectl get pods -A -o wide
+	```
+	![image](figure/pods.PNG)	
+* 비고 : 
+    * master에도 pod 스케줄을 가능하게 하려면 master taint를 제거한다
+	```bash
+	kubectl taint node [master hostname] node-role.kubernetes.io/master:NoSchedule-
+	ex) kubectl taint node k8s-master1 node-role.kubernetes.io/master:NoSchedule- 
+	```
 	![image](figure/master2.PNG)    
 	* 해당 옵션은 certificates를 control-plane으로 upload하는 옵션
 	* 해당 옵션을 설정하지 않을 경우, 모든 Master 노드에서 key를 복사해야 함
@@ -465,16 +512,10 @@ case2. [ 다중화 master ](/README.md#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%
 	   ```bash
 	     kubeadm join 172.22.5.2:6443 --token 2cks7n.yvojnnnq1lyz1qud \ --discovery-token-ca-cert-hash sha256:efba18bb4862cbcb54fb643a1b7f91c25e08cfc1640e5a6fffa6de83e4c76f07 \ --control-plane --certificate-key f822617fcbfde09dff35c10e388bc881904b5b6c4da28f3ea8891db2d0bd3a62 --cri-socket=/var/run/crio/crio.sock
 	   ```
-	* kubernetes config 
-	    ```bash
-	    mkdir -p $HOME/.kube
-	    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-	    sudo chown $(id -u):$(id -g) $HOME/.kube/config
-	    ```
 * 비고 : 	
     * join시에 apiserver ip 변경이 필요할 경우 --apiserver-advertise-address 옵션을 추가한다.
 	```bash
-	kubeadm join 172.22.5.2:6443 --token 2cks7n.yvojnnnq1lyz1qud \ --discovery-token-ca-cert-hash sha256:efba18bb4862cbcb54fb643a1b7f91c25e08cfc1640e5a6fffa6de83e4c76f07 \ --control-plane --certificate-key f822617fcbfde09dff35c10e388bc881904b5b6c4da28f3ea8891db2d0bd3a62 --cri-socket=/var/run/crio/crio.sock --apiserver-advertise-address=172.22.4.3
+	kubeadm join 172.22.5.2:6443 --token 2cks7n.yvojnnnq1lyz1qud \ --discovery-token-ca-cert-hash sha256:efba18bb4862cbcb54fb643a1b7f91c25e08cfc1640e5a6fffa6de83e4c76f07 \ --control-plane --certificate-key f822617fcbfde09dff35c10e388bc881904b5b6c4da28f3ea8891db2d0bd3a62 --apiserver-advertise-address=172.22.4.3 --cri-socket=/var/run/crio/crio.sock
 	```    
 	
 ## Step 4. Cluster join (Worker)
