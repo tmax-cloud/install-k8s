@@ -87,8 +87,9 @@
 
 ## 설치 가이드
 0. [(Master/Worker 공통) 환경 설정](/README.md#step0-%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95)
-1. [(Master/Worker 공통) runtime 설치 - cri-o 설치](/README.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
-1-1. [docker-ce 설치](/README.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
+1. [(Master/Worker 공통) runtime 설치]
+case1. [cri-o 설치](/README.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
+case2. [docker-ce 설치](/README.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
 2. [(Master/Worker 공통) kubeadm, kubelet, kubectl 설치](/README.md#step-2-kubeadm-kubelet-kubectl-%EC%84%A4%EC%B9%98)
 3. [(Master) kubernetes cluster 구성](/README.md#step-3-kubernetes-cluster-%EA%B5%AC%EC%84%B1)
 3-1. [kubernetes cluster 구성(master 다중화)](/README.md#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%A4%91%ED%99%94-%EA%B5%AC%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-keepalived-%EC%84%A4%EC%B9%98)
@@ -160,10 +161,11 @@
 	```
     * xfs filesystem을 사용하는 경우, 'xfs_info /' 커맨드가 ftype=1이 출력되는지 확인한다.
     
-## Step 1. cri-o 설치 및 설정 (Master/Worker 공통)
+## Step 1. runtime 설치 및 설정 (Master/Worker 공통)
+### Case 1. cri-o 설치 및 설정 (Master/Worker 공통)
 * 목적 : `k8s container cri-o runtime 설치`
 * 순서 :
-    * cri-o를 설치한다. 
+    * cri-o(v1.19.1)를 설치한다. 
      * (폐쇄망) 아래 주소를 참조하여 패키지 레포를 등록 후 crio를 설치한다.
         * https://github.com/tmax-cloud/hypercloud-install-guide/tree/master/Package#step-1-local-repository-%EA%B5%AC%EC%B6%95
 	```bash
@@ -186,7 +188,7 @@
 	sudo systemctl status crio
 	rpm -qi cri-o
 	```
-    ![image](figure/rpm.PNG)
+    ![image](figure/crio-v(v1.19.1).PNG)
 * 비고 :
     * 추후 설치예정인 network plugin과 crio의 가상 인터페이스 충돌을 막기위해 cri-o의 default 인터페이스 설정을 제거한다.
 	```bash
@@ -215,7 +217,7 @@
 	sudo systemctl restart crio
 	```
 	
-## Step 1-1. docker-ce 설치 및 설정 (Master/Worker 공통)
+### Case 2. docker-ce 설치 및 설정 (Master/Worker 공통)
 * 목적 : `k8s container docker runtime 설치`
 * 생성 순서 :
     * docker-ce를 설치한다. (image registry 구축 시에 docker를 이미 설치하였고 daemon.json 내용이 같다면 step1-1의 과정은 생략한다.)
@@ -256,9 +258,9 @@
 * 목적 : `Kubernetes 구성을 위한 kubeadm, kubelet, kubectl 설치한다.`
 * 순서:
     * CRI-O 메이저와 마이너 버전은 쿠버네티스 메이저와 마이너 버전이 일치해야 한다.
-    * (폐쇄망) kubeadm, kubectl, kubelet 설치 (vv1.19.4)
+    * (폐쇄망) kubeadm, kubectl, kubelet 설치 (v1.19.4)
 	```bash
-	sudo yum install -y kubeadm-v1.19.4-0 kubelet-v1.19.4-0 kubectl-v1.19.4-0
+	sudo yum install -y kubeadm-1.19.4-0 kubelet-1.19.4-0 kubectl-1.19.4-0
 	
 	sudo systemctl enable kubelet
 	```  	
@@ -274,7 +276,7 @@
 	gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 	EOF
 
-	sudo yum install -y kubeadm-v1.19.4-0 kubelet-v1.19.4-0 kubectl-v1.19.4-0
+	sudo yum install -y kubeadm-1.19.4-0 kubelet-1.19.4-0 kubectl-1.19.4-0
 	
 	sudo systemctl enable kubelet
 	```  
@@ -322,7 +324,7 @@
 	```
 	![image](figure/kubeinit.PNG)
      * 마스터 다중화 진행시 아래 마스터 다중화 가이드로 설치를 진행한다. 
-       * [마스터 다중화 가이드](https://github.com/tmax-cloud/hypercloud-install-guide/tree/master/K8S_Master#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%A4%91%ED%99%94-%EA%B5%AC%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-keepalived-%EC%84%A4%EC%B9%98)
+       * [마스터 다중화 가이드](https://github.com/tmax-cloud/install-k8s#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%A4%91%ED%99%94-%EA%B5%AC%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-keepalived-%EC%84%A4%EC%B9%98-master)
      * 듀얼 스택 클러스터 구축 시에는 아래의 [비고] yaml을 참조하여 진행한다.                
     * kubernetes config 
 	```bash
