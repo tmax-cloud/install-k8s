@@ -220,7 +220,7 @@ case2. [docker-ce 설치](/README.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
 ### Case 2. docker-ce 설치 및 설정 (Master/Worker 공통)
 * 목적 : `k8s container docker runtime 설치`
 * 생성 순서 :
-    * docker-ce를 설치한다. (image registry 구축 시에 docker를 이미 설치하였고 daemon.json 내용이 같다면 step1-1의 과정은 생략한다.)
+    * docker-ce를 설치한다. (image registry 구축 시에 docker를 이미 설치하였고 daemon.json 내용이 같다면 case2의 과정은 생략한다.)
     ```bash
     sudo yum install -y docker-ce
     sudo systemctl start docker
@@ -228,15 +228,15 @@ case2. [docker-ce 설치](/README.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
     ```  
     * 폐쇄망 환경에서 private registry 접근을 위해 daemon.json 내용을 수정한다.
       * sudo vi /etc/docker/daemon.json
-      ```bash
-      {
-        "exec-opts": ["native.cgroupdriver=systemd"],
-        "log-driver": "json-file",
-        "log-opts": { "max-size": "100m" },
-        "storage-driver": "overlay2",
-        "insecure-registries": ["{registry}:{port}"]
-      }
-      ```
+    ```bash
+    {
+      "exec-opts": ["native.cgroupdriver=systemd"],
+      "log-driver": "json-file",
+      "log-opts": { "max-size": "100m" },
+      "storage-driver": "overlay2",
+      "insecure-registries": ["{registry}:{port}"]
+    }
+    ```
     * docker를 재실행하고 status를 확인한다.
     ```bash
       sudo systemctl restart docker
