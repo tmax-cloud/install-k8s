@@ -422,7 +422,7 @@
     sudo systemctl restart kubelet	   
     ``` 
      * 업그레이드시 runtime 변경을 하는 경우 (docker -> cri-o)
-       * crio 설치는 https://github.com/tmax-cloud/hypercloud-install-guide/tree/master/K8S_Master#step-1-cri-o-%EC%84%A4%EC%B9%98를 참조한다.
+       * crio 설치는 https://github.com/tmax-cloud/install-k8s/tree/5.0#step-1-runtime-%EC%84%A4%EC%B9%98-%EB%B0%8F-%EC%84%A4%EC%A0%95-masterworker-%EA%B3%B5%ED%86%B5를 참조한다.
     ```bash
     systemctl stop kubelet
     
