@@ -3,11 +3,11 @@
 ## Prerequisites
   * 해당 installer는 폐쇄망 기준 가이드입니다.
   * OS 설치 및 package repo를 아래 가이드에 맞춰 설치합니다.
-    * https://github.com/tmax-cloud/hypercloud-install-guide/tree/master/Package#os-%EC%84%A4%EC%B9%98--package-repo-%EA%B5%AC%EC%B6%95-%EA%B0%80%EC%9D%B4%EB%93%9C
+    * https://github.com/tmax-cloud/install-pkg-repo
   * image registry를 아래 가이드에 맞춰 구축합니다.
-    * https://github.com/tmax-cloud/hypercloud-install-guide/tree/master/Image_Registry#image-registry-%EC%84%A4%EC%B9%98-%EA%B0%80%EC%9D%B4%EB%93%9C 
+    * https://github.com/tmax-cloud/install-registry/tree/5.0
   * image registry에 이미지를 push 합니다.  
-    * https://github.com/tmax-cloud/hypercloud-install-guide/tree/master/K8S_Master#%ED%8F%90%EC%87%84%EB%A7%9D-%EC%84%A4%EC%B9%98-%EA%B0%80%EC%9D%B4%EB%93%9C
+    * https://github.com/tmax-cloud/install-k8s/blob/5.0/README.md
 
 ## Step0. k8s.config 설정
 * 목적 : `k8s 설치 진행을 위한 k8s config 설정`
