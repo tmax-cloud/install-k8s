@@ -86,19 +86,19 @@
     * 위 내용은 2개이상의 마스터 구축시 마스터 1개에서만 진행한다.
 
 ## 설치 가이드
-0. [(Master/Worker 공통) 환경 설정](/README.md#step0-%ED%99%98%EA%B2%BD-%EC%84%A4%EC%A0%95)
+0. [(Master/Worker 공통) 환경 설정](/README.md#step0-환경-설정-masterworker-공통)
 1. [(Master/Worker 공통) runtime 설치]
-case1. [cri-o 설치](/README.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
-case2. [docker-ce 설치](/README.md#step-1-cri-o-%EC%84%A4%EC%B9%98)
-2. [(Master/Worker 공통) kubeadm, kubelet, kubectl 설치](/README.md#step-2-kubeadm-kubelet-kubectl-%EC%84%A4%EC%B9%98)
+case1. [cri-o 설치](/README.md#case-1-cri-o-설치-및-설정-masterworker-공통)
+case2. [docker-ce 설치](/README.md#case-2-docker-ce-설치-및-설정-masterworker-공통)
+2. [(Master/Worker 공통) kubeadm, kubelet, kubectl 설치](/README.md#step-2-kubeadm-kubelet-kubectl-설치-masterworker-공통)
 3. [(Master) kubernetes cluster 구성]
-case1. [ 단일 master cluser 구성](/README.md#step-3-kubernetes-cluster-%EA%B5%AC%EC%84%B1)
-case2. [ 다중화 master cluser 구성](/README.md#step-3-1-kubernetes-cluster-%EB%8B%A4%EC%A4%91%ED%99%94-%EA%B5%AC%EC%84%B1%EC%9D%84-%EC%9C%84%ED%95%9C-keepalived-%EC%84%A4%EC%B9%98)
+case1. [ 단일 master cluser 구성](/README.md#case-1-단일-contorl-plain-구성-master-1개)
+case2. [ 다중화 master cluser 구성](/README.md##case-2-다중-contorl-plain-구성-master-2개-이상)
 4. [(Worker) kubernetes cluster join](/README.md#step-4-cluster-join-worker)
 
 ## 삭제 가이드
-0. [(Master/Worker 공통) kubernetes cluster reset](https://github.com/jinho0928/install-k8s#step-1-cluster-reset-masterworker-%EA%B3%B5%ED%86%B5)
-1. [(Master/Worker 공통) 패키지 삭제](https://github.com/jinho0928/install-k8s/blob/main/README.md#step-2-%EC%84%A4%EC%B9%98-%ED%8C%A8%ED%82%A4%EC%A7%80-%EC%82%AD%EC%A0%9C-masterworker-%EA%B3%B5%ED%86%B5)
+0. [(Master/Worker 공통) kubernetes cluster reset](/README.md#step-1-cluster-reset-masterworker-공통)
+1. [(Master/Worker 공통) 패키지 삭제](/README.md#step-2-설치-패키지-삭제-masterworker-공통)
 
 ## 설치 가이드
 ## Step0. 환경 설정 (Master/Worker 공통)
