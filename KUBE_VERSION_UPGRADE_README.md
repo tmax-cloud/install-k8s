@@ -15,7 +15,7 @@
 
 ## 폐쇄망 가이드 
 1. **폐쇄망에서 설치하는 경우** 아래 가이드를 참고 하여 image registry를 먼저 구축한다.
-    * https://github.com/tmax-cloud/hypercloud-install-guide/tree/master/Image_Registry   
+    * https://github.com/tmax-cloud/install-registry/tree/5.0  
 2. 사용하는 image repository에 k8s 설치 시 필요한 이미지를 push한다. 
     * 작업 디렉토리 생성 및 환경 설정
     ```bash
@@ -124,8 +124,8 @@
     ```    
 
 ## Steps
-0. [master upgrade](https://github.com/tmax-cloud/hypercloud-install-guide/blob/master/K8S_Master/KUBE_VERSION_UPGRADE_README.md#step0-kubernetes-master-upgrade)
-1. [node upgrade](https://github.com/tmax-cloud/hypercloud-install-guide/blob/master/K8S_Master/KUBE_VERSION_UPGRADE_README.md#step1-kubernetes-node-upgrade)
+0. [master upgrade](KUBE_VERSION_UPGRADE_README.md#step0-kubernetes-master-upgrade)
+1. [node upgrade](KUBE_VERSION_UPGRADE_README.md#step1-kubernetes-node-upgrade)
 
 ## Step0. kubernetes master upgrade
 * master에서 kubeadm을 upgrade 한다.
@@ -337,7 +337,7 @@
     sudo systemctl restart kubelet	   
     ```
      * 업그레이드시 runtime 변경을 하는 경우 (docker -> cri-o)
-       * crio 설치는 https://github.com/tmax-cloud/hypercloud-install-guide/tree/master/K8S_Master#step-1-cri-o-%EC%84%A4%EC%B9%98를 참조한다.
+       * crio 설치는 https://github.com/tmax-cloud/install-k8s/tree/5.0#step-1-runtime-%EC%84%A4%EC%B9%98-%EB%B0%8F-%EC%84%A4%EC%A0%95-masterworker-%EA%B3%B5%ED%86%B5를 참조한다.
     ```bash
     systemctl stop kubelet    
     
