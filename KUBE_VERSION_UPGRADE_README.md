@@ -124,8 +124,8 @@
     ```    
 
 ## Steps
-0. [master upgrade](https://github.com/tmax-cloud/hypercloud-install-guide/blob/master/K8S_Master/KUBE_VERSION_UPGRADE_README.md#step0-kubernetes-master-upgrade)
-1. [node upgrade](https://github.com/tmax-cloud/hypercloud-install-guide/blob/master/K8S_Master/KUBE_VERSION_UPGRADE_README.md#step1-kubernetes-node-upgrade)
+0. [master upgrade](/README.md#step0-kubernetes-master-upgrade)
+1. [node upgrade](/README.md#step1-kubernetes-node-upgrade)
 
 ## Step0. kubernetes master upgrade
 * master에서 kubeadm을 upgrade 한다.
