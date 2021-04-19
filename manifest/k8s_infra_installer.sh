@@ -145,7 +145,7 @@ kubernetesVersion: {k8sVersion}
 controlPlaneEndpoint: {apiServer}:6443
 imageRepository: {imageRegistry}/k8s.gcr.io
 networking:
-serviceSubnet: 10.96.0.0/16
+serviceSubnet: {serviceSubnet}
 podSubnet: {podSubnet}
 apiServer:
 extraArgs:
