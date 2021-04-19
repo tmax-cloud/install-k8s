@@ -23,6 +23,8 @@
        * ex : apiServer=172.21.7.2
      * podSubnet={POD_IP_POOL}/{CIDR}
        * ex : podSubnet=10.244.0.0/16
+     * serviceSubnet={Serivce_Subnet}/{CIDR}
+       * ex : serviceSubnet=10.96.0.0/16
 
 ## Step1. installer 실행
 * 목적 : `k8s 설치 진행을 위한 shell script 실행`
