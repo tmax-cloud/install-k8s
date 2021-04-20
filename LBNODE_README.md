@@ -136,16 +136,16 @@
 
 	* 각 서비스를 활성화시켜주며 하고, 동작을 확인한다.
 	```bash
-	systemctl enable haproxy
-	systemctl enable keepalived
+	sudo systemctl enable haproxy
+	sudo systemctl enable keepalived
 
-	systemctl daemon-reload
+	sudo systemctl daemon-reload
 
-	systemctl start haproxy
-	systemctl start keepalived
+	sudo systemctl start haproxy
+	sudo systemctl start keepalived
 
-	systemctl status haproxy
-	systemctl status keepalived
+	sudo systemctl status haproxy
+	sudo systemctl status keepalived
 	```
 
 ## Step.3 K8S cluster 구축
