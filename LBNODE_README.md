@@ -9,7 +9,7 @@
 ## Install Steps
 0. 변수 설정
 1. HAProxy + Keepalived 설치
-2. 설치한 서비스 재시작
+2. 설치한 서비스 기동
 3. K8S 클러스터 구축
 
 ## Step 0. 변수 설정
@@ -41,8 +41,8 @@
 	./lb_set_script.sh
 	```
 
-## Step.2 설치한 서비스 재시작
-* 목적 : `HAProxy와 Keepalived 재시작`
+## Step.2 설치한 서비스 기동
+* 목적 : `HAProxy와 Keepalived 기동`
 * 순서 :
 	* 각 서비스의 설정파일에 Step0 에서 입력한 값들이 올바르게 설정되었는지 확인한다.
 	```bash
@@ -134,15 +134,15 @@
 	  server MASTER3NAME MASTER3IP check
 	```
 
-	* 각 서비스를 활성화시켜주며 재시작하고, 동작을 확인한다.
+	* 각 서비스를 활성화시켜주며 하고, 동작을 확인한다.
 	```bash
 	systemctl enable haproxy
 	systemctl enable keepalived
 
 	systemctl daemon-reload
 
-	systemctl restart haproxy
-	systemctl restart keepalived
+	systemctl start haproxy
+	systemctl start keepalived
 
 	systemctl status haproxy
 	systemctl status keepalived
