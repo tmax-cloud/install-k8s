@@ -229,7 +229,8 @@ function install_kube() {
         #change kubeadm yaml
         sudo sed -i "s|{k8sVersion}|v${k8sVersion}|g" ${yaml_dir}/kubeadm-config.yaml
         sudo sed -i "s|{apiServer}|${apiServer}|g" ${yaml_dir}/kubeadm-config.yaml
-        sudo sed -i "s|{podSubnet}|${podSubnet}|g" ${yaml_dir}/kubeadm-config.yaml
+	sudo sed -i "s|{podSubnet}|${podSubnet}|g" ${yaml_dir}/kubeadm-config.yaml
+        sudo sed -i "s|{serviceSubnet}|${serviceSubnet}|g" ${yaml_dir}/kubeadm-config.yaml
         sudo sed -i "s|{imageRegistry}|${imageRegistry}|g" ${yaml_dir}/kubeadm-config.yaml
 
         # kube init
