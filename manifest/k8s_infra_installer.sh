@@ -193,6 +193,12 @@ function install_kube() {
         apiServer=${apiServer}
   fi
 
+  if [[ -z ${serviceSubnet} ]]; then
+        serviceSubnet=10.96.0.0/16
+  else
+        serviceSubnet=${serviceSubnet}
+  fi
+
   if [[ -z ${podSubnet} ]]; then
         podSubnet=10.244.0.0/16
   else
