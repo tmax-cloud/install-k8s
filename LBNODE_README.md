@@ -18,9 +18,9 @@
 	* Keepalived 와 HAProxy를 설치 및 동작시키기 위한 변수를 설정한다.
 	* 클러스터 구성에 사용할 각 Master Node의 IP, VIP, LBNode에 대한 정보를 입력한다.
 		```bash
-		export MASTER1NAME=test		# 클러스터로 구성할 Master Node의 host명을 각각 입력.
-		export MASTER2NAME=worker
-		export MASTER3NAME=worker2
+		export MASTER1NAME=master1		# 클러스터로 구성할 Master Node의 host명을 각각 입력.
+		export MASTER2NAME=master2
+		export MASTER3NAME=master3
 		
 		export MASTER1IP=192.168.56.222 # Master Node의 IP를 각각 입력.
 		export MASTER2IP=192.168.56.223
@@ -69,7 +69,7 @@
 	    state MASTER        # MASTER는 메인 LB, 백업 LB는  BACKUP 으로 설정
 	    interface enp0s8    # 사용할 interface
 	    virtual_router_id 51
-	    priority 100        # MASTER의 우선순위가 적어도 1이상 높아야 함
+	    priority 100        # priority(0~100)가 클수록 MASTER의 우선순위가 높음
 	    advert_int 1
 	    nopreempt
 	    authentication {    # 인증에 사용될 password(동일하게 맞춰주기만 하면 됨)
