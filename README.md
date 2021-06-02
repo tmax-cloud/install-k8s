@@ -221,11 +221,21 @@ case2. [ 다중화 master cluser 구성](/README.md##case-2-다중-contorl-plain
 ### Case 2. docker-ce 설치 및 설정 (Master/Worker 공통)
 * 목적 : `k8s container docker runtime 설치`
 * 생성 순서 :
-    * docker-ce를 설치한다. (image registry 구축 시에 docker를 이미 설치하였고 daemon.json 내용이 같다면 case2의 과정은 생략한다.)
+    * docker 의존성 패키지를 설치와 docker-ce.repo를 등록한다.
+    ```bash
+    $ yum -y install yum-utils device-mapper-persistent-data lvm2
+    $ yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    ```
+    * docker-ce를 설치한다. (image registry 구축 시에 docker를 이미 설치하였고 daemon.json 내용이 같다면 step1-1의 과정은 생략한다.)
     ```bash
     sudo yum install -y docker-ce
     sudo systemctl start docker
     sudo systemctl enable docker
+    ```
+    * docker-ce 설치 시 특정 버전을 설치할 경우 버전을 명시하여 설치한다.
+    ```bash
+    $ yum list docker-ce.x86-64 --showduplicates
+    $ ex) yum install -y docker-ce-18.09.7.ce
     ```  
     * 폐쇄망 환경에서 private registry 접근을 위해 daemon.json 내용을 수정한다.
       * sudo vi /etc/docker/daemon.json
