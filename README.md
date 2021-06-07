@@ -253,7 +253,14 @@ case2. [ 다중화 master cluser 구성](/README.md##case-2-다중-contorl-plain
       sudo systemctl restart docker
       sudo systemctl status docker
     ```
-* 비고 : 
+* 비고 :
+    * docker-ce 설치 시 runtime confilct 에러가 발생하는 경우 아래와 같이 우회하여 docker 설치를 진행한다.
+      *  ex) Error: containerd.io conflicts with 2:runc-1.0.0-377.rc93.el7.8.1.x86_64
+	 ```bash
+    $ sudo yum list | grep runc
+    $ sudo yum remove runc
+    $ sudo yum install docker-ce
+	 ```  
     * private image registry를 사용할 경우 registries.conf 내용을 수정한다.
       * sudo vi /etc/containers/registries.conf
 	```bash
@@ -263,8 +270,7 @@ case2. [ 다중화 master cluser 구성](/README.md##case-2-다중-contorl-plain
     * docker를 재시작 한다.
 	```bash
 	sudo systemctl restart docker
-	```
-	
+	```	
 ## Step 2. kubeadm, kubelet, kubectl 설치 (Master/Worker 공통)
 * 목적 : `Kubernetes 구성을 위한 kubeadm, kubelet, kubectl 설치한다.`
 * 순서:
