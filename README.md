@@ -176,7 +176,7 @@ case2. [ 다중화 master cluser 구성](/README.md##case-2-다중-contorl-plain
 	```
      * (외부망) crio 버전 지정 및 레포를 등록 후 crio를 설치한다.
 	```bash
-	VERSION=1.19
+	VERSION=1.19:1.19.1
 	sudo curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable.repo https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/CentOS_7/devel:kubic:libcontainers:stable.repo
 	sudo curl -L -o /etc/yum.repos.d/devel:kubic:libcontainers:stable:cri-o:${VERSION}.repo https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:${VERSION}/CentOS_7/devel:kubic:libcontainers:stable:cri-o:${VERSION}.repo
   
