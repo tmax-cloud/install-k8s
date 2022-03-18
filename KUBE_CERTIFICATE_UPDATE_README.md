@@ -72,16 +72,17 @@
       mv {apiserver.crt,apiserver-etcd-client.key,apiserver-kubelet-client.crt,front-proxy-ca.crt,front-proxy-client.crt,front-proxy-client.key,front-proxy-ca.key,apiserver-kubelet-client.key,apiserver.key,apiserver-etcd-client.crt} ~/cert_temp
       
       cd /etc/kubernetes/pki/etcd
-      mv {ca.crt,ca.key,healthcheck-client.crt,healthcheck-client.key,peer.crt,peer.key,server.crt,server.key} ~/cert_temp      
+      mv {healthcheck-client.crt,healthcheck-client.key,peer.crt,peer.key,server.crt,server.key} ~/cert_temp
       
       cd /etc/kubernetes/
-      mv {admin.conf,controller-manager.conf,mv kubelet.conf,scheduler.conf} ~/cert_temp
+      mv {admin.conf,controller-manager.conf,kubelet.conf,scheduler.conf} ~/cert_temp
+
       ```    
       * 새 인증서 생성 및 config 변경 적용
       ```bash
-      kubeadm init phase certs all --apiserver-advertise-address <MASTER_IP>
+      kubeadm init phase certs all --apiserver-advertise-address <MASTER_IP> --config=<설치할때 사용했던 kubeadm-config.yaml 파일 경로>
       
-      kubeadm init phase kubeconfig all
+      kubeadm init phase kubeconfig all --config=<설치할때 사용했던 kubeadm-config.yaml 파일 경로>
       ```
       * reboot
       * kube config 복사
