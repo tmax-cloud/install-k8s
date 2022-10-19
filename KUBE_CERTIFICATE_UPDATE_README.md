@@ -66,16 +66,11 @@
     * 이미 인증서가 만료된 경우 아래 가이드를 참조하여 인증서를 갱신한다. 
       * 기존 인증서 및 config 백업 (권장사항)
       ```bash
-      mkdir ~/cert_temp
+      mkdir ~/cert_temp      
       
-      cd /etc/kubernetes/pki/
-      mv {apiserver.crt,apiserver-etcd-client.key,apiserver-kubelet-client.crt,front-proxy-ca.crt,front-proxy-client.crt,front-proxy-client.key,front-proxy-ca.key,apiserver-kubelet-client.key,apiserver.key,apiserver-etcd-client.crt} ~/cert_temp
-      
-      cd /etc/kubernetes/pki/etcd
-      mv {healthcheck-client.crt,healthcheck-client.key,peer.crt,peer.key,server.crt,server.key} ~/cert_temp
-      
+      cp /etc/kubernetes/pki ~/cert_temp
       cd /etc/kubernetes/
-      mv {admin.conf,controller-manager.conf,kubelet.conf,scheduler.conf} ~/cert_temp
+      cp {admin.conf,controller-manager.conf,kubelet.conf,scheduler.conf} ~/cert_temp
 
       ```    
       * 새 인증서 생성 및 config 변경 적용
