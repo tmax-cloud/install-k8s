@@ -7,8 +7,12 @@
 * 목적 : `인증서가 만료되는 시기를 확인한다.`
 * 순서 : 
   ```bash
+  - kubeadm v1.20 이상 버전인 경우
+  kubeadm certs check-expiration
+  
+  - kubeadm v1.19 이하 버전인 경우
   kubeadm alpha certs check-expiration
-	```
+  ```
   ```bash
   CERTIFICATE                EXPIRES                  RESIDUAL TIME   CERTIFICATE AUTHORITY   EXTERNALLY MANAGED
   admin.conf                 Nov 30, 2021 07:23 UTC   364d                                    no
@@ -46,9 +50,13 @@
   * kubeadm으로 생성된 클라이언트 인증서는 1년 기준이다.
   * warning : 다중화 클러스터 구성의 경우, 모든 컨트롤 플레인 노드에서 이 명령을 실행해야 한다.  
   ```bash
-  kubeadm alpha certs renew all
+  - kubeadm v1.20 이상 버전인 경우
+  kubeadm certs renew all
   
-  
+  - kubeadm v1.19 이하 버전인 경우
+  kubeadm alpha certs renew all  
+  ```  
+  ```bash  
   [renew] Reading configuration from the cluster...
   [renew] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -oyaml'
   
