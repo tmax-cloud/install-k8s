@@ -75,7 +75,11 @@
   ```bash
   kubectl delete pod <pod_name> -n kube-system
   
-  ex) kubectl delete pod kube-apiserver-master1 -n kube-system
+  ex)
+  kubectl delete pod -l 'component=kube-apiserver' -n kube-system
+  kubectl delete pod -l 'component=kube-scheduler' -n kube-system
+  kubectl delete pod -l 'component=kube-controller-manager' -n kube-system
+  kubectl delete pod -l 'component=etcd' -n kube-system
   ```
   * config 복사
   ```bash
