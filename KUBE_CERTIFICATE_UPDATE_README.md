@@ -89,7 +89,7 @@
     * 이미 인증서가 만료된 경우 아래 가이드를 참조하여 인증서를 갱신한다. 
       * 새 인증서 생성 및 config 변경 적용
       ```bash
-      kubeadm init phase certs all --apiserver-advertise-address <MASTER_IP> --config=<설치할때 사용했던 kubeadm-config.yaml 파일 경로>
+      kubeadm init phase certs all --config=<설치할때 사용했던 kubeadm-config.yaml 파일 경로>
       
       kubeadm init phase kubeconfig all --config=<설치할때 사용했던 kubeadm-config.yaml 파일 경로>
       ```
