@@ -194,7 +194,7 @@
  	sudo rm -rf  /etc/cni/net.d/200-loopback.conf
 	``` 
     * crio.conf 내용을 수정한다. ( sudo vi /etc/crio/crio.conf )
-      * plugin_dirs : "/opt/cni/bin" 추가
+      * plugin_dirs : "/opt/cni/bin" 추가 - k8s v1.94 에서 필수   
       * (폐쇄망) insecure_registries = ["{registry}:{port}"]
       * (폐쇄망) pause_image : "k8s.gcr.io/pause:3.1" 을 "{registry}:{port}/k8s.gcr.io/pause:3.1" 로 변경
       ![image](figure/crio_config.PNG)
